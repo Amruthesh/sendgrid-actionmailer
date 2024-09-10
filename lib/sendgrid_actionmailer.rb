@@ -161,6 +161,7 @@ module SendGridActionMailer
     end
 
     def add_attachments(sendgrid_mail, mail)
+      Rails.logger.info "[SENDGRIDMAILER] No attachments found" if mail.attachments.blank?
       mail.attachments.each do |part|
         sendgrid_mail.add_attachment(to_attachment(part))
       end
