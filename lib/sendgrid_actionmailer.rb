@@ -180,6 +180,8 @@ module SendGridActionMailer
         when 'multipart/alternative', 'multipart/mixed', 'multipart/related'
           sendgrid_mail.add_content(to_content(:plain, mail.text_part.decoded)) if mail.text_part
           sendgrid_mail.add_content(to_content(:html, mail.html_part.decoded)) if mail.html_part
+          calendar_part = mail.parts.find{|part| part.mime_type == 'text/calendar'}
+          sendgrid_mail.add_content(to_content(:calendar, calendar_part.decoded)) if calendar_part.present?
 
           add_attachments(sendgrid_mail, mail)
         end
